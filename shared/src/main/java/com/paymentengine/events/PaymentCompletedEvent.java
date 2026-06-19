@@ -1,4 +1,4 @@
-package com.paymentengine.shared.event;
+package com.paymentengine.events;
 
 public class PaymentCompletedEvent {
 }
