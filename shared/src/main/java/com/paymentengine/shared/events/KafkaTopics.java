@@ -1,4 +1,4 @@
-package com.paymentengine.events;
+package com.paymentengine.shared.events;
 
 public final class KafkaTopics {
 
