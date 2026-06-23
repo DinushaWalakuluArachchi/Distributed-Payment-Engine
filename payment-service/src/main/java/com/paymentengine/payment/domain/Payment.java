@@ -1,4 +1,4 @@
-package com.paymentengine.paymentservice.domain;
+package com.paymentengine.payment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
