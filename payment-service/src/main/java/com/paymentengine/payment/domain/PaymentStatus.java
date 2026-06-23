@@ -1,4 +1,4 @@
-package com.paymentengine.paymentservice.domain;
+package com.paymentengine.payment.domain;
 
 import java.util.EnumSet;
 import java.util.Set;
