@@ -1,4 +1,4 @@
-package com.paymentengine.paymentservice.domain;
+package com.paymentengine.payment.domain;
 
 public class IllegalStatusTransitionException extends RuntimeException{
     public IllegalStatusTransitionException(PaymentStatus from, PaymentStatus to) {
