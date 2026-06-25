@@ -20,7 +20,7 @@ public class CachingResponseWrapper extends HttpServletResponseWrapper {
 
 
 
-    public CachingResponseWrapper(HttpServletResponse response, PrintWriter writer) throws IOException {
+    public CachingResponseWrapper(HttpServletResponse response) throws IOException {
         super(response);
         this.writer = new PrintWriter(
                 new OutputStreamWriter(buffer, response.getCharacterEncoding()), true
