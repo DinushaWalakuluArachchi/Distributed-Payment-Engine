@@ -1,4 +1,4 @@
-package com.paymentengine.config;
+package com.paymentengine.apigateway.config;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class IdempotencyFilter implements Filter {
 
     private final RedissonClient redisson;
 
-    @Value("@{idempotency.ttl-seconds:86400}")
+    @Value("${idempotency.ttl-seconds:86400}")
     private long ttlSecond;
 
 
@@ -76,7 +76,7 @@ public class IdempotencyFilter implements Filter {
 
         if (statusCode >= 200 && statusCode < 300){
             bucket.set(responseBody, ttlSecond, TimeUnit.SECONDS);
-            log.info("Idempotency Key stored: {} (TTL {}s", idempotencyKey, ttlSecond);
+            log.info("Idempotency Key stored: {} (TTL {}s)", idempotencyKey, ttlSecond);
         }
 
         response.setStatus(statusCode);
