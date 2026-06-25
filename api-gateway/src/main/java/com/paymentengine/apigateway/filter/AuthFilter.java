@@ -1,4 +1,4 @@
-package com.paymentengine.filter;
+package com.paymentengine.apigateway.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

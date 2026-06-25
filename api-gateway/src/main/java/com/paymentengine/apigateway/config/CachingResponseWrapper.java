@@ -1,4 +1,4 @@
-package com.paymentengine.config;
+package com.paymentengine.apigateway.config;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
