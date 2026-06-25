@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Payment {
@@ -49,7 +49,7 @@ public class Payment {
         createdAt = updatedAt = Instant.now();
     }
 
-    @PrePersist
+    @PreUpdate
     private  void onUpdate(){
         updatedAt= Instant.now();
 

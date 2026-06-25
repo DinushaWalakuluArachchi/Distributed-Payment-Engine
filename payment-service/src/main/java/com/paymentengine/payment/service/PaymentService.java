@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepo;
-    private final KafkaTemplate<String, Object> kafka;
+    private final KafkaTemplate<String,Object> kafkaTemplate;
 
 
     @Transactional
@@ -46,7 +46,7 @@ public class PaymentService {
         payment.transitionTo(PaymentStatus.FRAUD_CHECKING);
         paymentRepo.save(payment);
 
-        kafka.send(KafkaTopics.PAYMENT_EVENTS,
+        kafkaTemplate.send(KafkaTopics.PAYMENT_EVENTS,
                 payment.getId().toString(),
                 PaymentInitiatedEvent.of(
                         payment.getId(), senderId,receiverId,amount,currency));

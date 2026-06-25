@@ -6,14 +6,18 @@ spring:
     name: payment-service
   datasource:
     url: jdbc:postgresql://localhost:5432/payment_engine
-    username: payment
-    password: payment
+    username: postgres
+    password: Dinusha@020040225.
+    driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
+
+
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -24,4 +28,4 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "com.yourname.shared.events"
+        spring.json.trusted.packages: "com.paymentengine.*"
