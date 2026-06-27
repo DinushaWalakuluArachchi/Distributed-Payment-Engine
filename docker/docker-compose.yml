@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: Dinusha@020040225.
       POSTGRES_DB: payment_engine
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
       - pg-data:/var/lib/postgresql/data
