@@ -43,10 +43,8 @@ public class DebitRecord {
         record.createdAt = Instant.now();
         return record;
     }
-
-    public void markCompensated(){
+    public void markCompensated() {
         this.status = DebitStatus.COMPENSATED;
     }
-
 
 }
