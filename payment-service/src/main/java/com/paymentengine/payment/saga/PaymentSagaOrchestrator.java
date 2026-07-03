@@ -164,7 +164,8 @@ public class PaymentSagaOrchestrator {
         paymentService.updateStatus(paymentId, PaymentStatus.COMPLETED);
 
         kafka.send("payment.events", paymentId.toString(),
-                Map.of("type", "PAYMENT_COMPLETED", "paymentId",paymentId));
+                Map.of("type", "PAYMENT_COMPLETED", "paymentId",paymentId,"amount", amount,
+                        "currency", currency));
 
         log.info("Saga completed successfully for paymentId={}", paymentId);
 
@@ -189,6 +190,13 @@ public class PaymentSagaOrchestrator {
         try {
             paymentService.updateStatus(paymentId, PaymentStatus.COMPENSATING);
             paymentService.updateStatus(paymentId, PaymentStatus.FAILED);
+
+            kafka.send("payment.events", paymentId.toString(),
+                    Map.of(
+                            "type", "PAYMENT_FAILED",
+                            "paymentId", paymentId,
+                            "reason", "Failed at step [" + failedStep + "] due to: " + reason
+                    ));
         }catch (Exception e){
             log.error("Could not transition payment {} to FAILED", paymentId, e);
         }
