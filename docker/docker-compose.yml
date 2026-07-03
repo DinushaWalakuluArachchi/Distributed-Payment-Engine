@@ -69,5 +69,12 @@ services:
     environment:
       GF_SECURITY_ADMIN_PASSWORD: admin
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: payment-mailhog
+    ports:
+      - "1025:1025"   # SMTP port — your Spring app sends here
+      - "8025:8025"   # Web UI — you view emails here
+
 volumes:
   pg-data:
