@@ -8,18 +8,8 @@
       "version": "17",
       "jdkDistro": "temurin",
       "installMaven": "true"
-    },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "vscjava.vscode-java-pack",
-        "vmware.vscode-spring-boot-dev-pack",
-        "vscjava.vscode-spring-boot-dashboard"
-      ]
     }
   },
-  "forwardPorts": [5432, 6379, 9092, 8080, 8081, 8082],
+  "forwardPorts": [5432, 6379, 9092, 8080, 8081, 8082, 8083],
   "postCreateCommand": "mvn clean install -DskipTests"
 }
