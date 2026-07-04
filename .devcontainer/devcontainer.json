@@ -6,10 +6,8 @@
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "version": "17",
-      "jdkDistro": "temurin"
-    },
-    "ghcr.io/devcontainers/features/maven:1": {
-      "version": "latest"
+      "jdkDistro": "temurin",
+      "installMaven": "true"
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
