@@ -1,15 +1,8 @@
 {
   "name": "Distributed Payment Engine Environment",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "codespace-base",
+  "service": "codespace-universal",
   "workspaceFolder": "/workspace",
-  "features": {
-    "ghcr.io/devcontainers/features/java:1": {
-      "version": "17",
-      "jdkDistro": "temurin",
-      "installMaven": "true"
-    }
-  },
   "forwardPorts": [5432, 6379, 9092, 8080, 8081, 8082, 8083],
   "postCreateCommand": "mvn clean install -DskipTests"
 }

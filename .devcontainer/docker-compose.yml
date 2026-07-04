@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  # 0. Base Container for Codespace (Ubuntu based, allows Java/Maven)
-  codespace-base:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu
+  # 0. Microsoft Universal Image (Includes Java 17/21 & Maven out of the box)
+  codespace-universal:
+    image: mcr.microsoft.com/devcontainers/universal:2
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
