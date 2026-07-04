@@ -2,6 +2,7 @@ package com.paymentengine.fraudservice.service;
 
 import com.paymentengine.fraudservice.domain.FraudSignal;
 import com.paymentengine.fraudservice.repository.FraudSignalRepository;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,18 @@ public class FraudScoringService {
 
     private final List<FraudSignalCheck> signalChecks;
     private final FraudSignalRepository signalRepository;
+    private final MeterRegistry meterRegistry;
 
     @Value("${fraud.approval-threshold}")
     private BigDecimal approvalThreshold;
 
     public FraudScoringService(
             List<FraudSignalCheck> signalChecks,
-            FraudSignalRepository signalRepository){
+            FraudSignalRepository signalRepository,
+            MeterRegistry meterRegistry){
         this.signalChecks = signalChecks;
         this.signalRepository = signalRepository;
+        this.meterRegistry = meterRegistry;
     }
 
 
@@ -55,6 +59,12 @@ public class FraudScoringService {
 
         log.info("Payment {} composite score={}, approved={}",
                 request.paymentId(),averageScore,approved);
+
+        meterRegistry.counter("fraud.checks.total").increment();
+        if (!approved){
+            meterRegistry.counter("fraud.checks.rejected").increment();
+        }
+        meterRegistry.gauge("fraud.composite.score", averageScore.doubleValue());
 
         return new FraudCheckResult(request.paymentId(), averageScore, approved);
     }
