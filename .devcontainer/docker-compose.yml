@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  # 0. Base Container for Codespace (Ubuntu based, allows Java/Maven)
+  codespace-base:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+
   # 1. PostgreSQL Database
   postgres:
     image: postgres:15-alpine
@@ -21,7 +28,7 @@ services:
     ports:
       - "6379:6379"
 
-  # 3. Apache Kafka (Zookeeper & Kafka combined using KRaft)
+  # 3. Apache Kafka
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     container_name: payment_kafka

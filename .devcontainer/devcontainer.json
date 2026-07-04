@@ -1,7 +1,7 @@
 {
   "name": "Distributed Payment Engine Environment",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "postgres",
+  "service": "codespace-base",
   "workspaceFolder": "/workspace",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
