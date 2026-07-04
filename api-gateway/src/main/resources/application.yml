@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+services:
+  payment-service: http://localhost:8081
+
+redisson:
+  address: redis://localhost:6379
+
+idempotency:
+  ttl-seconds: 86400
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true

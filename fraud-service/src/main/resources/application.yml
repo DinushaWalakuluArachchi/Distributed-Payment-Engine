@@ -1,0 +1,36 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: fraud-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment_engine
+    username: postgres
+    password: Dinusha@020040225.
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+fraud:
+  approval-threshold: 0.7
+  velocity:
+    max-payments-per-hour: 5
+  amount:
+    high-value-threshold: 1000.00
+  account:
+    new-account-days: 7
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
