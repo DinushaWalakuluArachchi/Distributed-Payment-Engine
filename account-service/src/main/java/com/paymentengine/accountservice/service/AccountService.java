@@ -6,6 +6,7 @@ import com.paymentengine.accountservice.domain.DebitRecord;
 import com.paymentengine.accountservice.domain.DebitStatus;
 import com.paymentengine.accountservice.repository.AccountRepository;
 import com.paymentengine.accountservice.repository.DebitRecordRepository;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -26,6 +27,7 @@ public class AccountService {
     private final AccountRepository accountRepo;
     private final DebitRecordRepository debitRecordRepo;
     private final KafkaTemplate<String, Object> kafka;
+    private final MeterRegistry meterRegistry;
 
     @Retryable(
             retryFor = ObjectOptimisticLockingFailureException.class,
@@ -40,6 +42,9 @@ public class AccountService {
 
         account.debit(amount);
         accountRepo.save(account);
+
+        meterRegistry.counter("account.debits.total").increment();
+        meterRegistry.gauge("account.debit.amount", amount.doubleValue());
 
         debitRecordRepo.save(DebitRecord.of(paymentId, account.getId(), amount));
 
