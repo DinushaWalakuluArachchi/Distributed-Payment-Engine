@@ -5,6 +5,7 @@ import com.paymentengine.payment.domain.PaymentStatus;
 import com.paymentengine.payment.repository.PaymentRepository;
 import com.paymentengine.shared.events.KafkaTopics;
 import com.paymentengine.shared.events.PaymentInitiatedEvent;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,6 +22,8 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepo;
     private final KafkaTemplate<String,Object> kafkaTemplate;
+
+    private final MeterRegistry meterRegistry;
 
 
     @Transactional
@@ -46,6 +49,8 @@ public class PaymentService {
         payment.transitionTo(PaymentStatus.FRAUD_CHECKING);
         paymentRepo.save(payment);
 
+        meterRegistry.counter("payments.initiated", "currency", currency).increment();
+
         kafkaTemplate.send(KafkaTopics.PAYMENT_EVENTS,
                 payment.getId().toString(),
                 PaymentInitiatedEvent.of(
@@ -61,6 +66,13 @@ public class PaymentService {
         PaymentStatus oldStatus = payment.getStatus();
         payment.transitionTo(newStatus);
         paymentRepo.save(payment);
+
+        if (newStatus == PaymentStatus.COMPLETED){
+            meterRegistry.counter("payments.completed").increment();
+        }
+        if (newStatus == PaymentStatus.FAILED){
+            meterRegistry.counter("payments.failed").increment();
+        }
 
         log.info("Payment {} transitioned {} -> {}", paymentId, oldStatus, newStatus);
     }
